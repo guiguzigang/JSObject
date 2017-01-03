@@ -118,3 +118,68 @@ Function.prototype.isPrototypeOf( () => {} ); // => true;
 Function.prototype.isPrototypeOf(function(){}); // => true; 
 
 Object.prototype.isPrototypeOf( () => {} ); // => true;
+
+
+// 8、Object.isEXtensible  检查对象是否可以被修改
+var car = {
+	doors: 4
+};
+// => true
+console.log(Object.isExtensible(car) === true);
+
+Object.preventExtensions(car);
+// => false
+console.log(Object.isExtensible(car) === true);
+
+// 9、Object.isSealed    返回一个Boolean值，取决于一个对象是否可以被扩展，以及它的全部属性是否都不可配置（nonconfigurable）
+var ziplockBag = {};
+// => false
+console.log(Object.isSealed(ziplockBag) === true);
+
+// => true
+console.log(Object.isExtensible(ziplockBag));
+
+Object.seal(ziplockBag);
+
+// => true
+console.log(Object.isSealed(ziplockBag) === true);
+
+// => false
+console.log(Object.isExtensible(ziplockBag));
+
+
+// 10、Object.valueOf
+var Car = function (name) {
+	this.name = name;
+};
+
+var tesla = Object.create(Car.prototype, {
+	name: {
+		value : 'tesla'
+	}
+});
+// => Car {name: "tesla"}
+console.log(tesla.valueOf());
+
+Car.prototype.valueOf = function () {
+	return this.name;
+};
+
+// => tesla
+console.log(tesla.valueOf());
+
+// Object.is   传入两个参数，在不需要强制转换的情况下，判断是否具有相同的值   （==  ， === 抽象相等运算符会进行强制转换）
+// => false
+Object.is('True' ,'true');
+
+// => true
+Object.is(!function(){}() , true);
+
+// => true
+Object.is(undefined , Math.prototype);
+
+// => true
+Object.is(NaN , 0/0);
+// => false
+console.log(NaN === 0/0);
+
